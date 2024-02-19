@@ -15,7 +15,7 @@ void Quest3::run() { // override do metodo 'run' da superclasse
     string filename;
 
     cout << "Desafio 3: Single-byte XOR cipher" << endl;
-    cout << "Qual texto deve servir de base para o 'scoring?'" << endl;
+    cout << "Qual texto deve servir de base para o 'scoring'?" << endl;
     cout << "[1] - Frankenstein" << endl;
     cout << "[2] - Moby Dick" << endl;
     cout << "[3] - Outro" << endl;
