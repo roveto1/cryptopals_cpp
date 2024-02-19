@@ -1,10 +1,7 @@
 #include "quest3.h"
 
-map<char, double> Quest3::dicionario; // |
+map<char, double> Quest3::dicionario; //  > definindo as referencias
 char Quest3::maisIncomum;             // |
-int Quest3::key;                      //  > definindo as referencias
-double Quest3::bestGuess;             // | 
-string Quest3::bestGuessString;       // |
 
 
 void Quest3::run() { // override do metodo 'run' da superclasse
@@ -191,6 +188,18 @@ map<char, double> Quest3::encontrarPorcentagens(string filename) { // encontra a
 
     file.close();
     return dicionario;
+}
+
+int Quest3::getKey() {
+    return key;
+}
+
+string Quest3::getBestGuessString() {
+    return bestGuessString;
+}
+
+double Quest3::getBestGuess() {
+    return bestGuess;
 }
 
 Quest3::~Quest3() {}

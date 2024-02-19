@@ -20,6 +20,10 @@ Menu::Menu()
             challenge = new Quest3();
             challenge->run();
             break;
+        case 4:
+            challenge = new Quest4();
+            challenge->run();
+            break;
         default: cout << "Questão invalida!" << endl;
     }
 }
