@@ -22,6 +22,18 @@ Menu::Menu() {
             case 4:
                 challenge = new Quest4();
                 break;
+            case 5:
+                challenge = new Quest5();
+                break;
+            case 6:
+                challenge = new Quest6();
+                break;
+            // case 7:
+            //     challenge = new Quest7();
+            //     break;
+            // case 8:
+            //     challenge = new Quest8();
+            //     break;
             default:
                 cout << "Questão invalida, saindo..." << endl;
                 repeat = false;

@@ -3,9 +3,9 @@ CXXFLAGS=-std=c++11
 
 all: final
 
-final: main.o menu.o quest1.o quest2.o quest3.o quest4.o
-	$(CXX) $(CXXFLAGS) main.o menu.o quest1.o quest2.o quest3.o quest4.o -o final
-	rm -f main.o menu.o quest1.o quest2.o quest3.o quest4.o
+final: main.o menu.o quest1.o quest2.o quest3.o quest4.o quest5.o quest6.o
+	$(CXX) $(CXXFLAGS) main.o menu.o quest1.o quest2.o quest3.o quest4.o quest5.o quest6.o -o final
+	rm -f main.o menu.o quest1.o quest2.o quest3.o quest4.o quest5.o quest6.o
 
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
@@ -25,5 +25,12 @@ quest3.o: quest3/quest3.cpp
 quest4.o: quest4/quest4.cpp
 	$(CXX) $(CXXFLAGS) -c quest4/quest4.cpp
 
+quest5.o: quest5/quest5.cpp
+	$(CXX) $(CXXFLAGS) -c quest5/quest5.cpp
+
+quest6.o: quest6/quest6.cpp
+	$(CXX) $(CXXFLAGS) -c quest6/quest6.cpp
+
+
 clean:
-	rm -f final main.o menu.o quest1.o quest2.o quest3.o quest4.o
+	rm -f final main.o menu.o quest1.o quest2.o quest3.o quest4.o quest5.o quest6.o

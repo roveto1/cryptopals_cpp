@@ -3,6 +3,9 @@
 map<char, double> Quest3::dicionario; //  > definindo as referencias
 char Quest3::maisIncomum;             // |
 
+Quest3::Quest3() {
+    // dicionario = encontrarPorcentagens("quest3/frankenstein.txt");
+}
 
 void Quest3::run() { // override do metodo 'run' da superclasse
 
@@ -106,15 +109,16 @@ string Quest3::guess(string hex_str) { // faz o chute da mensagem mais provavel 
         Gerencia todas as possiveis chaves, chamando 'grade' para cada uma
         e escolhendo a que obteve o menor erro.
     */
-
     if (dicionario.empty()) {
         dicionario = encontrarPorcentagens("quest3/frankenstein.txt");
     }
+
 
     encontrarMaisIncomum();
     bestGuess = numeric_limits<double>::infinity();
     key = 0;
     bestGuessString = "";
+
     for (int i = 0; i < 256; i++) {
         ostringstream oss;
         oss << hex << i;
@@ -131,13 +135,14 @@ string Quest3::guess(string hex_str) { // faz o chute da mensagem mais provavel 
 
         string xor_str = Quest2::fixedXor(guess, hex_str);
         string out = Quest1::hexToString(xor_str);
+        // cout << out << endl;
         double score = grade(out);
         if (score < bestGuess) {
             key = i;
             bestGuess = score;
             bestGuessString = out;
         }
-        
+
     }
 
     return bestGuessString;

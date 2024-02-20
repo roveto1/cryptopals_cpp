@@ -30,6 +30,8 @@ string Quest2::fixedXor(string a, string b) { // faz o XOR entre dois hex
     }
     string bin1 = Quest1::hexToBin(a); // converte hex para bin, funcao da questao 1
     string bin2 = Quest1::hexToBin(b);
+    // cout << "Strings a xor:" << a << endl << "Strings b xor:" << b << endl;
+    // cout << "Binario 1:" << bin1 << endl << "Binario 2:" << bin2 << endl;
     for (int i = 0; i < bin1.length(); i++) {
         if (bin1[i] == bin2[i]) {
             result += '0';

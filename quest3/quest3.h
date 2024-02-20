@@ -9,6 +9,8 @@ class Quest3 : public Challenge { // classe para questao 3
 public:
     static map<char, double> dicionario; // dicionario do scoring
 
+    Quest3();
+
     void run() override; // override do metodo 'run' da superclasse
     string guess(string hex_str); // faz o chute da mensagem mais provavel baseado no scoring
     double grade(string hex_str); // realiza o scoring
