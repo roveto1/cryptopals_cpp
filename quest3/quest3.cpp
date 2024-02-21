@@ -44,13 +44,13 @@ void Quest3::run() { // override do metodo 'run' da superclasse
 
     cout << "Analisando o arquivo: " << filename << endl;
     dicionario = encontrarPorcentagens(filename);
-    for (const auto& pair : dicionario) {
-        if (pair.first == '\n') {
-            cout << "'" << "\\n" << "': " << pair.second << endl;
-        } else {
-            cout << "'" << pair.first << "': " << pair.second << endl;
-        }
-    }
+    // for (const auto& pair : dicionario) {
+    //     if (pair.first == '\n') {
+    //         cout << "'" << "\\n" << "': " << pair.second << endl;
+    //     } else {
+    //         cout << "'" << pair.first << "': " << pair.second << endl;
+    //     }
+    // }
     cout << "Analise concluída!" << endl;
     cout << "Insira o hex a ser decifrado: " << endl;
     cin >> a;
@@ -135,7 +135,6 @@ string Quest3::guess(string hex_str) { // faz o chute da mensagem mais provavel 
 
         string xor_str = Quest2::fixedXor(guess, hex_str);
         string out = Quest1::hexToString(xor_str);
-        // cout << out << endl;
         double score = grade(out);
         if (score < bestGuess) {
             key = i;

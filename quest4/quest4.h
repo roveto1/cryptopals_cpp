@@ -7,7 +7,7 @@
 #include "../quest3/quest3.h"
 
 
-class Quest4 : public Challenge
+class Quest4 : public Challenge // classe da questao 4
 {
 public:
     void run() override; // override do metodo 'run' da superclasse

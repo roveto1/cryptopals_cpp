@@ -1,8 +1,11 @@
 #include "quest6.h"
 #define MAX_KEYSIZE 40
 
-void Quest6::run()
-{ // override do metodo 'run' da superclasse
+void Quest6::run() { // override do metodo 'run' da superclasse
+
+    /*
+        Funcao para controlar o input da questao 1, para avaliacao.
+    */
 
     cout << "Desafio 6: Break repeating-key XOR" << endl;
     cout << "Qual arquivo avaliar?" << endl;
@@ -32,103 +35,160 @@ void Quest6::run()
     string s1 = ss.str();
 
     cout << "Buscando tamanho da chave..." << endl;
-    int key = Quest6::guessKeySize(base64_to_binary(s1));
-    cout << "Tamanho encontrado: " << key << endl;
+    int keySize = Quest6::chutarKeySize(Quest1::base64ToBinary(s1));
+    cout << "Tamanho encontrado: " << keySize << endl;
 
-    vector<string> v1;
-    std::vector<std::string> blocks;
-    string ciphertext = base64_to_binary(s1);
+    vector<string> blocos;
+    string msgBin = Quest1::base64ToBinary(s1);
     cout << "Dividindo entrada em blocos..." << endl;
-    for (size_t i = 0; i < ciphertext.size(); i += key * 8) {
-        blocks.push_back(ciphertext.substr(i, key * 8));
+    for (size_t i = 0; i < msgBin.size(); i += keySize * 8) {
+        blocos.push_back(msgBin.substr(i, keySize * 8));
     }
-    cout << "Divisao completa," << blocks.size() << " blocos gerados" << endl;
+    cout << "Divisao completa," << blocos.size() << " blocos gerados" << endl;
 
     cout << "Transpondo blocos..." << endl;
-    vector<string> v2 = Quest6::transposeBlocks(blocks);
-    cout << "Transposicao completa, " << v2.size() << " blocos transpostos" << endl;
+    vector<string> v = Quest6::transporBlocos(blocos);
+    cout << "Transposicao completa, " << v.size() << " blocos transpostos" << endl;
 
     cout << "Decodificando blocos, buscando pela chave..." << endl;
-    string out = "";
+    string chave = "";
     Quest3 q3;
-    for (string s : v2) {
-        string s2 = Quest1::binToHex(s);
-        q3.guess(s2);
+    for (string s : v) {
+        string temp_str = Quest1::binToHex(s);
+        q3.guess(temp_str);
         int temp_key = q3.getKey();
-        out += temp_key;
+        chave += temp_key;
         cout << (char)temp_key << flush;
     }
     cout << endl << endl;
-    cout << "Chave encontrada: " << out << endl;
+    cout << "Chave encontrada: " << chave << endl;
     cout << "Decodificando..." << endl;
-    ciphertext = base64_to_hex(s1);
+    string msgHex = Quest1::base64ToHex(s1);
     cout << "Texto decodificado: " << endl;
-    cout << Quest1::hexToString(Quest5::repKeyXorEnc(hex_to_ascii(ciphertext), out)) << endl;
+    cout << Quest1::hexToString(Quest5::repKeyXorEnc(Quest1::hexToAscii(msgHex), chave)) << endl;
 }
 
-int Quest6::hammingDistance(const string &s1, const string &s2)
-{
-    int distance = 0;
+int Quest6::hammingDistance(string s1, string s2) { // calcula a Hamming Distance
+
+    /*
+        Calcula a Hamming Distance entre duas strings.
+        A entrada deve ser dada como uma string contendo
+        a informacao codificada em binario.
+    */
+
+    int diatancia = 0;
     for (size_t i = 0; i < s1.length(); ++i)
     {
         if (s1[i] != s2[i])
         {
-            distance++;
+            diatancia++;
         }
     }
-    return distance;
+    return diatancia;
 }
 
-int Quest6::guessKeySize(const string &ciphertext)
-{
-    double smallest_distance = std::numeric_limits<double>::max();
-    int smallest_key_size = -1;
+int Quest6::chutarKeySize(string string_in) { // busca pelo tamanho da chave
 
-    for (int key_size = 2; key_size <= 40; key_size++)
+    /*
+        Funcao para controlar o input da questao 1, para avaliacao.
+    */
+
+    double menorDistancia = numeric_limits<double>::max();
+    int menorKeySize = -1;
+
+    for (int i = 2; i <= 40; i++)
     {
-        std::string part1 = ciphertext.substr(0, key_size * 8);
-        std::string part2 = ciphertext.substr(key_size * 8, key_size * 8);
-        string part3 = ciphertext.substr(key_size * 8 * 2, key_size * 8);
-        string part4 = ciphertext.substr(key_size * 8 * 3, key_size * 8);
+        string part1 = string_in.substr(0, i * 8);
+        string part2 = string_in.substr(i * 8, i * 8);
+        string part3 = string_in.substr(i * 8 * 2, i * 8);
+        string part4 = string_in.substr(i * 8 * 3, i * 8);
 
-        double normalized_distance = (double)hammingDistance(part1, part2) / key_size;
-        double normalized_distance2 = (double)hammingDistance(part3, part4) / key_size;
-        double normalized_distance3 = (double)hammingDistance(part1, part3) / key_size;
-        double normalized_distance4 = (double)hammingDistance(part2, part4) / key_size;
-        double normalized_distance5 = (double)hammingDistance(part1, part4) / key_size;
-        double normalized_distance6 = (double)hammingDistance(part2, part3) / key_size;
-        normalized_distance = (normalized_distance + normalized_distance2 + normalized_distance3 + normalized_distance4 + normalized_distance5 + normalized_distance6) / 6;
-        if (normalized_distance < smallest_distance)
+        double distaciaNormalizada = (double)hammingDistance(part1, part2) / i;
+        distaciaNormalizada += (double)hammingDistance(part3, part4) / i;
+        distaciaNormalizada += (double)hammingDistance(part1, part3) / i;
+        distaciaNormalizada += (double)hammingDistance(part2, part4) / i;
+        distaciaNormalizada += (double)hammingDistance(part1, part4) / i;
+        distaciaNormalizada += (double)hammingDistance(part2, part3) / i;
+        distaciaNormalizada = distaciaNormalizada / 6;
+        if (distaciaNormalizada < menorDistancia)
         {
-            smallest_distance = normalized_distance;
-            smallest_key_size = key_size;
+            menorDistancia = distaciaNormalizada;
+            menorKeySize = i;
         }
     }
 
-    return smallest_key_size;
+    return menorKeySize;
 }
 
-vector<string> Quest6::transposeBlocks(vector<string> &blocks)
-{
-    std::vector<std::string> transposed_strings;
+vector<string> Quest6::transporBlocos(vector<string> blocos){ // transposta os blocos
 
-    // Find the maximum length among all input strings
-    size_t max_length = 0;
-    for (const std::string &binary_str : blocks) {
-        max_length = std::max(max_length, binary_str.length());
+    /*
+        Dado um vector de blocos em binario, retorna um vector
+        de blocos transpostos.
+    */
+
+    vector<string> stringsTransportas;
+
+    size_t maxLength = 0;
+    for (string s : blocos) {
+        maxLength = max(maxLength, s.length());
     }
-    // Transpose the binary strings by every 8 characters
-    for (size_t i = 0; i < max_length; i += 8) {
-        std::string transposed_str;
-        for (const std::string &binary_str : blocks) {
-            if (i < binary_str.length()) {
-                transposed_str += binary_str.substr(i, 8);
+
+    for (size_t i = 0; i < maxLength; i += 8) {
+        string strTransposta;
+        for (string s : blocos) {
+            if (i < s.length()) {
+                strTransposta += s.substr(i, 8);
             }
         }
-        transposed_strings.push_back(transposed_str);
+        stringsTransportas.push_back(strTransposta);
     }
 
-    return transposed_strings;
+    return stringsTransportas;
+}
+
+pair<string , string> Quest6::BreakRepeatingKeyXOR(string filepath) { // executa o Break repeating-key XOR
+
+    /*
+        Funcao que executa o BreakRepeatingKeyXOR em sua totalidade,
+        Caso necessario no futuro.
+    */
+    
+    ifstream file;
+    file.open(filepath);
+
+    if (!file.is_open()) {
+        throw invalid_argument("Arquivo inválido: " + filepath);
+        return make_pair("", "");
+    }
+
+    stringstream ss;
+    ss << file.rdbuf();
+    string s1 = ss.str();
+
+    int key = Quest6::chutarKeySize(Quest1::base64ToBinary(s1));
+
+    vector<string> blocks;
+    string msgBin = Quest1::base64ToBinary(s1);
+
+    for (size_t i = 0; i < msgBin.size(); i += key * 8) {
+        blocks.push_back(msgBin.substr(i, key * 8));
+    }
+
+    vector<string> v = Quest6::transporBlocos(blocks);
+
+    string chave = "";
+    Quest3 q3;
+    for (string s : v) {
+        string temp_str = Quest1::binToHex(s);
+        q3.guess(temp_str);
+        int temp_key = q3.getKey();
+        chave += temp_key;
+    }
+    string msgHex = Quest1::base64ToHex(s1);
+    string msgDescoberta = Quest1::hexToString(Quest5::repKeyXorEnc(Quest1::hexToAscii(msgHex), chave));
+
+    return make_pair(chave, msgDescoberta);
 }
 
 

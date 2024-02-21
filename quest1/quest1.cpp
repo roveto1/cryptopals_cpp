@@ -12,25 +12,86 @@ void Quest1::run() { // override do metodo 'run' da superclasse
     cin >> a;
 
     string b = hexToBin(a);
-    string c = binTo64(b);
+    string c = binToBase64(b);
     cout << "Resultado: " << c << endl;
 
 }
 
-string Quest1::hexToString(string a) { // converte hexadecimal para string
+string Quest1::base64ToHex(string base64) { // converte base64 para hexadecimal
+
+    /*  
+        Funcao direta de conversao de base64 para hexadecimal
+        para uso em outras questoes.
+    */
+
+    string resultado = "";
+
+    string bin = base64ToBinary(base64);
+    for (int i = 0; i < bin.length(); i += 4) {
+        string sub = bin.substr(i, 4);
+        resultado += Quest1::binToHex(sub);
+    }
+    if (resultado.length() % 2 == 1)
+        resultado.erase(resultado.length() - 1);
+
+    return resultado;
+}
+
+string Quest1::base64ToBinary(string base64) { // converte base64 para binario
+
+    /*  
+        Funcao direta de conversao de base64 para binario
+        para uso em outras questoes.
+    */
+
+    std::string resultado;
+    for (int i = 0; i < base64.length(); i++) {
+        if (base64[i] >= 'A' && base64[i] <= 'Z')
+            resultado += std::bitset<6>(base64[i] - 'A').to_string();
+        else if (base64[i] >= 'a' && base64[i] <= 'z')
+            resultado += std::bitset<6>(base64[i] - 'a' + 26).to_string();
+        else if (base64[i] >= '0' && base64[i] <= '9')
+            resultado += std::bitset<6>(base64[i] - '0' + 52).to_string();
+        else if (base64[i] == '+')
+            resultado += std::bitset<6>(62).to_string();
+        else if (base64[i] == '/')
+            resultado += std::bitset<6>(63).to_string();
+    }
+    return resultado;
+}
+
+string Quest1::hexToAscii(string base64) { // converte hexadecimal para ascii
+
+    /*  
+        Funcao direta de conversao de hexadecimal para ascii
+        para uso em outras questoes.
+    */
+
+    stringstream resultado;
+    for (int i = 0; i < base64.length(); i += 2) {
+        string byteString = base64.substr(i, 2);
+        char byte = (char)strtol(byteString.c_str(), NULL, 16);
+        resultado << byte;
+    }
+    return resultado.str();
+}
+
+string Quest1::hexToString(string hex) { // converte hexadecimal para string
 
     /*  
         Funcao direta de conversao de hexadecimal para string
         para uso em outras questoes.
     */
+
     string str = "";
-    for (int i = 0; i < a.length(); i += 2) {
-        str += char(stoi(a.substr(i, 2), nullptr, 16));
+    for (int i = 0; i < hex.length(); i += 2) {
+        str += char(stoi(hex.substr(i, 2), nullptr, 16));
     }
     return str;
 }
 
-string Quest1::binToHex(string a) { // converte binario para hexadecimal
+
+string Quest1::binToHex(string bin) { // converte binario para hexadecimal
 
     /*  
         Converte binario para hexadecimal a partir de operacoes
@@ -38,8 +99,8 @@ string Quest1::binToHex(string a) { // converte binario para hexadecimal
     */
 
     string hex = "";
-    for (int i = 0; i < a.length(); i += 4) { 
-        string chunk = a.substr(i, 4);        
+    for (int i = 0; i < bin.length(); i += 4) { 
+        string chunk = bin.substr(i, 4);        
         int num = stoi(chunk, nullptr, 2);    
         if (num < 10) {
             hex += char('0' + num);
@@ -50,23 +111,23 @@ string Quest1::binToHex(string a) { // converte binario para hexadecimal
     return hex;
 }
 
-string Quest1::hexToBin(string a) { // converte hexadecimal para binario
+string Quest1::hexToBin(string hex) { // converte hexadecimal para binario
 
     /*  
         Converte hexadecimal para binario a partir de operacoes
         na tabela ascii
     */
     string bin = "";                        
-    for (int i = 0; i < a.length(); i++) {  //|
-        char c = a[i];                      //|
-        int bin_val;                        //|
-        if (c >= 65 && c <= 70) {           //|
-            bin_val = c - 55;               // > Converte a string de ascii para hexadecimal
-        } else if (c >= 97 && c <= 102) {   //|
-            bin_val = c - 87;               //|
-        } else if (c >= 48 && c <= 57) {    //|
-            bin_val = c - 48;               //|
-        }                                   //|
+    for (int i = 0; i < hex.length(); i++) {  //|
+        char c = hex[i];                      //|
+        int bin_val;                          //|
+        if (c >= 65 && c <= 70) {             //|
+            bin_val = c - 55;                 // > Converte a string de ascii para hexadecimal
+        } else if (c >= 97 && c <= 102) {     //|
+            bin_val = c - 87;                 //|
+        } else if (c >= 48 && c <= 57) {      //|
+            bin_val = c - 48;                 //|
+        }                                     //|
 
         bin += bitset<4>(bin_val).to_string(); // Cria a string 'bin' contendo o valor binario do hexadecimal
     }
@@ -74,7 +135,7 @@ string Quest1::hexToBin(string a) { // converte hexadecimal para binario
 
 }
 
-string Quest1::binTo64(string a) { // converte binario para base64
+string Quest1::binToBase64(string bin) { // converte binario para base64
 
     /*  
         Converte binario para base64 a partir de operacoes
@@ -82,8 +143,8 @@ string Quest1::binTo64(string a) { // converte binario para base64
     */
 
     string base64 = "";
-    for (int i = 0; i < a.length(); i += 6) {
-        string chunk = a.substr(i, 6);
+    for (int i = 0; i < bin.length(); i += 6) {
+        string chunk = bin.substr(i, 6);
         while (chunk.length() < 6) {
             chunk = chunk + "0";
         }
@@ -103,14 +164,14 @@ string Quest1::binTo64(string a) { // converte binario para base64
     return round4(base64);
 }
 
-string Quest1::hexTo64(string a) { // aplica hexToBin() e binTo64()
+string Quest1::hexToBase64(string hex) { // aplica hexToBin() e binTo64()
 
     /*  
         Funcao direta de conversao de hexadecimal para base64
         para uso em outras questoes.
     */
 
-    return binTo64(hexToBin(a));
+    return binToBase64(hexToBin(hex));
 }
 
 string Quest1::round4(string b64) { // padding
