@@ -7,49 +7,47 @@ void Quest6::run() { // override do metodo 'run' da superclasse
         Funcao para controlar o input da questao 1, para avaliacao.
     */
 
+
+    cout << endl;
+    cout << "----------------------------------" << endl;
     cout << "Desafio 6: Break repeating-key XOR" << endl;
+    cout << "----------------------------------" << endl;
     cout << "Qual arquivo avaliar?" << endl;
-    cout << "[1] - 6.txt (arquivo fornecido pelo cryptopals)" << endl;
-    cout << "[2] - Outro" << endl;
-    int op1;
-    cin >> op1;
+    cout << "Insira o cominho do arquivo .txt que deseja decifrar (deixe vazio para '6.txt'): " << endl;
     string filename;
-    switch (op1)
-    {
-    case 1:
-        filename = "quest6/6.txt";
-        break;
-    case 2:
-        cout << "Insira o caminho do arquivo .txt: " << endl;
-        cin >> filename;
-        break;
-    default:
-        cout << "Opção invalida!" << endl;
-        abort();
-        break;
-    }
+    cin.ignore();
+    if (cin.peek() == '\n') {
+            filename = "quest6/6.txt";
+        } else {
+            cin >> filename;
+        }
+        
     ifstream file;
     file.open(filename);
     stringstream ss;
     ss << file.rdbuf();
     string s1 = ss.str();
 
+    cout << endl;
     cout << "Buscando tamanho da chave..." << endl;
     int keySize = Quest6::chutarKeySize(Quest1::base64ToBinary(s1));
     cout << "Tamanho encontrado: " << keySize << endl;
 
+    cout << endl;
     vector<string> blocos;
     string msgBin = Quest1::base64ToBinary(s1);
     cout << "Dividindo entrada em blocos..." << endl;
     for (size_t i = 0; i < msgBin.size(); i += keySize * 8) {
         blocos.push_back(msgBin.substr(i, keySize * 8));
     }
-    cout << "Divisao completa," << blocos.size() << " blocos gerados" << endl;
+    cout << "Divisao completa, " << blocos.size() << " blocos gerados" << endl;
+    cout << endl;
 
     cout << "Transpondo blocos..." << endl;
     vector<string> v = Quest6::transporBlocos(blocos);
     cout << "Transposicao completa, " << v.size() << " blocos transpostos" << endl;
 
+    cout << endl;
     cout << "Decodificando blocos, buscando pela chave..." << endl;
     string chave = "";
     Quest3 q3;
@@ -62,10 +60,12 @@ void Quest6::run() { // override do metodo 'run' da superclasse
     }
     cout << endl << endl;
     cout << "Chave encontrada: " << chave << endl;
-    cout << "Decodificando..." << endl;
+    cout << "Decodificando..." << endl << endl;
     string msgHex = Quest1::base64ToHex(s1);
-    cout << "Texto decodificado: " << endl;
+    cout << "Texto decodificado: " << endl << endl;
     cout << Quest1::hexToString(Quest5::repKeyXorEnc(Quest1::hexToAscii(msgHex), chave)) << endl;
+    file.close();
+
 }
 
 int Quest6::hammingDistance(string s1, string s2) { // calcula a Hamming Distance

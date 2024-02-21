@@ -5,11 +5,13 @@ Menu::Menu() {
     while (true) {
         int questao;
         cout << "Escolha a questao (1 ate 8): ";
-        cin >> questao;
-        cout << endl;
-
-        switch(questao)
-        {
+        if (cin.peek() == '\n') {
+            questao = 0;
+        } else {
+            cin >> questao;
+        }
+        
+        switch(questao) {
             case 1:
                 challenge = new Quest1();
                 break;
@@ -28,12 +30,12 @@ Menu::Menu() {
             case 6:
                 challenge = new Quest6();
                 break;
-            // case 7:
-            //     challenge = new Quest7();
-            //     break;
-            // case 8:
-            //     challenge = new Quest8();
-            //     break;
+            case 7:
+                challenge = new Quest7();
+                break;
+            case 8:
+                challenge = new Quest8();
+                break;
             default:
                 cout << "Questão invalida, saindo..." << endl;
                 repeat = false;
@@ -44,6 +46,7 @@ Menu::Menu() {
         }
         challenge->run();
         cout << endl;
+        cin.ignore();
     }
 }
 

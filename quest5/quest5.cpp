@@ -6,12 +6,15 @@ void Quest5::run() { // override do metodo 'run' da superclasse
         Funcao para controlar o input da questao 5, para avaliacao.
     */
 
-    string a, out, b = "ICE";
+    string a, out, b;
     vector<string> va;
 
     cin.ignore();
+    cout << endl;
+    cout << "--------------------------------------" << endl;
     cout << "Desafio 5: Implement repeating-key XOR" << endl;
-    cout << "Insira a(s) frase(s) a ser(em) encriptada(s): ";
+    cout << "--------------------------------------" << endl;
+    cout << "Insira a(s) frase(s) a ser(em) encriptada(s) (aceita multiplas linhas) (insira uma linha vazia para terminar): " << endl;
     while (getline(cin, a)) {
         if (a.empty()) {
             break;
@@ -21,10 +24,12 @@ void Quest5::run() { // override do metodo 'run' da superclasse
 
     cout << "Insira a chave (deixe vazio para 'ICE'): ";
     if (cin.peek() == '\n') {
-        cin.ignore();
+        b = "ICE";
     } else {
         getline(cin, b);
     }
+
+    cin.clear();
 
     string k = "";
     for (int i = 0; i < va.size(); i++) {
@@ -36,9 +41,7 @@ void Quest5::run() { // override do metodo 'run' da superclasse
 
 
     out = repKeyXorEnc(k, b);
-
     cout << "Resultado: \n" << out << endl;
-
 
 }
 

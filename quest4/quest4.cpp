@@ -15,27 +15,21 @@ void Quest4::run() { // override do metodo 'run' da superclasse
 
 
     int op1;
-    string filename;
+    cout << endl;
+    cout << "--------------------------------------" << endl;
     cout << "Desafio 4: Detect single-character XOR" << endl;
+    cout << "--------------------------------------" << endl;
     cout << "Qual arquivo avaliar?" << endl;
-    cout << "[1] - 4.txt (arquivo fornecido pelo cryptopals)" << endl;
-    cout << "[2] - Outro" << endl;
-    cin >> op1;
+    cout << "Insira o cominho do arquivo .txt que deseja decifrar (deixe vazio para '4.txt'): " << endl;
 
-    switch (op1)
-    {
-    case 1:
+    string filename;
+    cin.ignore();
+    if (cin.peek() == '\n') {
         filename = "quest4/4.txt";
-        break;
-    case 2:
-        cout << "Insira o caminho do arquivo .txt: " << endl;
+    } else {
         cin >> filename;
-        break;
-    default:
-        cout << "Opção invalida!" << endl;
-        abort();
-        break;
     }
+    cout << endl;
     cout << "Filtrando melhor chute..." << endl;
     cout << "LINHA | CHAVE |   VALOR   | VALOR ANTERIOR" << endl;
     guessMultiple(filename, true);
@@ -81,6 +75,8 @@ string Quest4::guessMultiple(string filename, bool print) { // faz o chute da me
             bestGuess = chuteVal;
         }
     }
+
+    file.close();
     return bestGuessString;
 }
 

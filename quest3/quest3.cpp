@@ -16,13 +16,16 @@ void Quest3::run() { // override do metodo 'run' da superclasse
     string a;
     int op1;
     string filename;
-
+    cout << endl;
+    cout << "---------------------------------" << endl;
     cout << "Desafio 3: Single-byte XOR cipher" << endl;
+    cout << "---------------------------------" << endl;
     cout << "Qual texto deve servir de base para o 'scoring'?" << endl;
     cout << "[1] - Frankenstein" << endl;
     cout << "[2] - Moby Dick" << endl;
     cout << "[3] - Outro" << endl;
     cin >> op1;
+    cout << endl;
 
     switch (op1)
         {
@@ -44,14 +47,7 @@ void Quest3::run() { // override do metodo 'run' da superclasse
 
     cout << "Analisando o arquivo: " << filename << endl;
     dicionario = encontrarPorcentagens(filename);
-    // for (const auto& pair : dicionario) {
-    //     if (pair.first == '\n') {
-    //         cout << "'" << "\\n" << "': " << pair.second << endl;
-    //     } else {
-    //         cout << "'" << pair.first << "': " << pair.second << endl;
-    //     }
-    // }
-    cout << "Analise concluída!" << endl;
+    cout << "Analise concluída!" << endl << endl;
     cout << "Insira o hex a ser decifrado: " << endl;
     cin >> a;
     cout << endl;
@@ -59,7 +55,6 @@ void Quest3::run() { // override do metodo 'run' da superclasse
     cout << "O melhor resultado foi: " << bestGuessString << endl;
     cout << "Com um score de: " << bestGuess << endl;
     cout << "E a chave era: " << key << endl;
-    
 
 }
 

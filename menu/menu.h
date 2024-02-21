@@ -8,6 +8,9 @@
 #include "../quest4/quest4.h"
 #include "../quest5/quest5.h"
 #include "../quest6/quest6.h"
+#include "../quest7/quest7.h"
+#include "../quest8/quest8.h"
+
 using namespace std;
 class Menu
 {

@@ -7,11 +7,15 @@ void Quest2::run() { // override do metodo 'run' da superclasse
     */
 
     string a, b;
+    cout << endl;
+    cout << "--------------------" << endl;
     cout << "Desafio 2: Fixed XOR" << endl;
+    cout << "--------------------" << endl;
     cout << "Enter hex 1: ";
     cin >> a;
     cout << "Enter hex 2: ";
     cin >> b;
+    cout << endl;
 
     cout << "Resultado: " << fixedXor(a, b) << endl;
 
