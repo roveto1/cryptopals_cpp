@@ -1,7 +1,7 @@
 # Cryptopals Set 1 - C++
 
 ## Overview
-Este repositorio contem minhas resolucoes para o set 1 de desafios do Cryptopals, feito em C++. Foi realizado como pre-desafio para o processo seletivo do LabSEC/UFSC
+Este repositorio contem minhas resolucoes para o set 1 de desafios do Cryptopals, feito em C++. Foi realizado como pre-desafio para o processo seletivo do LabSEC/UFSC.
 
 
 ## Como Executar
